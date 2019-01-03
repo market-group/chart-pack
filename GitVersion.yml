@@ -1,5 +1,5 @@
 next-version: 1.0.0
-mode: ContinuousDeployment
+mode: ContinuousDelivery
 legacy-semver-padding: 3
 build-metadata-padding: 3
 commits-since-version-source-padding: 3
