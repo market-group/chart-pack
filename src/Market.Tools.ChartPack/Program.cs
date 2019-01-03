@@ -25,6 +25,7 @@ namespace chart_pack
             try
             {
                 
+
                 var app = new CommandLineApplication(true)
                 {
                     Description = "CLI tool for packing charts",
@@ -48,8 +49,7 @@ namespace chart_pack
 
                 _override = app.Option<bool>("--override|-o", "[Optional] Override if exists. Default: false", CommandOptionType.NoValue);
 
-                _dependencies = app.Option<string>("--dependencies|-d", "Path to a dependencies.yaml", CommandOptionType.SingleValue)
-                                    .IsRequired();
+                _dependencies = app.Option<string>("--dependencies|-d", "[Optional] Path to a dependencies.yaml", CommandOptionType.SingleValue);
                 
                 app.OnExecute(() => Execute());
 
@@ -65,14 +65,26 @@ namespace chart_pack
 
         private static int Execute()
         {
-            if(!File.Exists(_dependencies.ParsedValue))
+            PackageDependencyGroup[] dependenciesGroups = null;
+
+            if (_dependencies.HasValue())
             {
-                Console.WriteLine($"File {_dependencies.ParsedValue} does not exists");
-                return 1;
+
+                if (!File.Exists(_dependencies.ParsedValue))
+                {
+                    Console.WriteLine($"File {_dependencies.ParsedValue} does not exists");
+                    return 1;
+                }
+
+                var dependencies = ParseDependencies(_dependencies.ParsedValue);
+
+                dependenciesGroups = new PackageDependencyGroup[]
+                {
+                    new PackageDependencyGroup(NuGetFramework.AnyFramework,dependencies)
+                };
             }
-
-            var dependencies = ParseDependencies(_dependencies.ParsedValue);
-
+            
+            
 
             var metadata = new ManifestMetadata
             {
@@ -80,10 +92,7 @@ namespace chart_pack
                 Authors = new[] { "Market" },
                 Description = $"A Chart package",
                 Version = NuGetVersion.Parse(_version.ParsedValue),
-                DependencyGroups = new PackageDependencyGroup[]
-                {
-                    new PackageDependencyGroup(NuGetFramework.AnyFramework,dependencies)
-                }
+                DependencyGroups = dependenciesGroups ?? new PackageDependencyGroup[0],
             };
 
             BuildPackage(_path.ParsedValue, metadata, _outDir.ParsedValue, _override.HasValue());
