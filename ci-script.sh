@@ -55,3 +55,12 @@ done
 
 echo "Pushing package..."
 dotnet nuget push "$NUPKG_PATH/*.nupkg" --source $NUGET_FEED --api-key $NUGET_API_KEY --no-symbols true
+
+
+DOCKER_TAG1="$DOCKER_REPO/chart-pack:latest"
+DOCKER_TAG2="$DOCKER_REPO/chart-pack:$GitVersion_NuGetVersionV2"
+
+docker build -t DOCKER_TAG1 -t DOCKER_TAG2 -f ./src/Market.Tools.ChartPack/Dockerfile
+echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+docker push $DOCKER_TAG1
+docker push $DOCKER_TAG2
