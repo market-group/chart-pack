@@ -10,7 +10,7 @@ os:
 branches:  
   only:
     - master
-    - /^v[0-9]+.*/
+    - dev
 script:  
   - chmod +x ./ci-script.sh
   - ./ci-script.sh
