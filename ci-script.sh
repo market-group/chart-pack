@@ -64,3 +64,4 @@ docker build -t $DOCKER_TAG1 -t $DOCKER_TAG2 -f ./src/Market.Tools.ChartPack/Doc
 echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 docker push $DOCKER_TAG1
 docker push $DOCKER_TAG2
+
