@@ -58,3 +58,4 @@ Chart version in depedencies files can be specified in nuget version range synta
 |(1.0)|invalid|invalid|
 
 From: [https://docs.microsoft.com/en-us/nuget/reference/package-versioning](https://docs.microsoft.com/en-us/nuget/reference/package-versioning)
+
