@@ -5,7 +5,15 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
 	<PackAsTool>true</PackAsTool>
     <ToolCommandName>chart-pack</ToolCommandName>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="NuGet.Packaging" Version="4.9.2" />
